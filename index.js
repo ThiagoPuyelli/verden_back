@@ -4,6 +4,8 @@ const app = express();
 
 // Config
 app.set("port", process.env.PORT || 3000);
+require("dotenv").config();
+
 require("./database");
 
 // Middlewares
@@ -15,8 +17,7 @@ app.use(express.json());
 // Routes
 
 app.use("/courses/", require("./routes/coursesRoutes"));
-app.use("/section/", require("./routes/sectionRoutes"));
-app.use("/part/", require("./routes/partRoutes"));
+app.use("/users/", require("./routes/usersRoutes"));
 
 // Starting to server
 

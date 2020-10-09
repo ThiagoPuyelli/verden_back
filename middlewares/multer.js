@@ -4,12 +4,12 @@ const uuid = require("uuid")
 module.exports = function upload(path, format){
     const storage = multer.diskStorage({
         destination(req, file, cb){
-            cb(null, "./upload" + path);
+            cb(null, "./uploads/" + path);
         },
         filename(req, file = {}, cb){
 
             const { originalname } = file;
-            const originalnameSplit = file.split(".");
+            const originalnameSplit = originalname.split(".");
             const fileExt = originalnameSplit[1];
 
             cb(null, uuid.v4() + "." + fileExt);
@@ -17,7 +17,7 @@ module.exports = function upload(path, format){
     })
     return multer({
         storage,
-        fileFilter(req, file, cb){
+        fileFilter(req, file, next){
             const files = file.mimetype.startsWith(format);
             if(files){
                 next(null, true);

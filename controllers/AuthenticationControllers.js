@@ -1,12 +1,13 @@
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const { comparePassword } = require("../methods/index");
 
 module.exports = {
     async login(req, res){
         const { email, password } = req.body;
         const user = await User.findOne({email: email});
 
-        if(user && user.comparePassword(password, user.password)){
+        if(user && comparePassword(password, user.password)){
             const token = jwt.sign({id: user._id}, process.env.JWT_PASSWORD, {
                 expiresIn: 24 * 24 * 60
             });

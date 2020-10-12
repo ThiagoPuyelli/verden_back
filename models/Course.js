@@ -5,15 +5,15 @@ const courseSchema = new Schema({
     name: {type: String, required: true},
     image: String,
     sections: {type: [{
-        name: String,
-        position: Number,
+        name: {type: String, required: true},
+        position: {type: Number, required: true},
         videos: [{
-            file: String,
-            name: String
+            file: {type: String, required: true},
+            name: {type: String, required: true}
         }],
         books: [{
-            file: String,
-            name: String
+            file: {type: String, required: true},
+            name: {type: String, required: true}
         }]
     }], required: true},
     category: {type: String, required: true},
@@ -21,7 +21,7 @@ const courseSchema = new Schema({
     rating: {type: Number, default: 0, min: 0, max: 5},
     description: {type: String, required: true},
     hours: {type: Number, required: true},
-    instructorID: {type: String, required: true}
+    instructor: {type: Schema.ObjectId, ref:"User", required: true}
 })
 
 module.exports = mongoose.model("Course", courseSchema);

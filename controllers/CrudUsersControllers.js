@@ -1,8 +1,7 @@
 const User = require("../models/User")
 const jwt = require("jsonwebtoken");
 require("dotenv").config();
-const fs = require("fs");
-const path = require("path")
+const { deleteFile, encryptPassword } = require("../methods/index");
 
 module.exports = {
     async register(req, res){
@@ -19,7 +18,7 @@ module.exports = {
 
         const user = await new User({...req.body});
         
-        user.password = user.encryptPassword(req.body.password);
+        user.password = encryptPassword(req.body.password);
 
         // Gurdado del nombre de la imagen
 
@@ -54,7 +53,6 @@ module.exports = {
         const userID = req.params.id;
 
         const { email, name, username, password } = req.body;
-        const newUser = await new User();
 
         // Recopilacion de datos para modificar
 
@@ -62,7 +60,7 @@ module.exports = {
             email,
             name,
             username,
-            password: newUser.encryptPassword(password)
+            password: encryptPassword(password)
         }
 
         // Si es que tan solo cambia datos como un email o username
@@ -109,7 +107,7 @@ module.exports = {
 
             if(user){
                 if(user.image){
-                    fs.unlinkSync(path.join(__dirname, "../uploads/images/" + user.image));
+                    deleteFile("images", user.image);
                 }
 
                 return res.status(200).send("Usuario eliminado con éxito")

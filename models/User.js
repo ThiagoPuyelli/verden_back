@@ -8,7 +8,8 @@ const userSchema = new Schema({
     password: {type: String, required: true, minlength: 6},
     courses: {type: [Schema.ObjectId], ref:"Course", default: []},
     email: {type: String, required: true},
-    image: {type: String}
+    image: {type: String},
+    rating: {type: Number, default: 0, min: 0, max: 5}
 });
 
 userSchema.methods.encryptPassword = (password) => {

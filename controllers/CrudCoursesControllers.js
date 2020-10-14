@@ -1,5 +1,6 @@
 const Course = require("../models/Course");
 const { deleteFile } = require("../methods/index");
+const User = require("../models/User");
 
 module.exports = {
     async saveCourse(req, res){
@@ -8,16 +9,30 @@ module.exports = {
 
         const newCourse = new Course({...req.body, instructor, image});
 
-        await newCourse.save((err, course) => {
-            if(err) return res.status(500).send("Error al guardar curso");
+        if(newCourse){
+            await newCourse.save(async (err, course) => {
+                if(err) return res.status(500).send("Error al guardar curso");
+    
+                if(!course) return res.status(404).send("El curso no tiene todos los datos válidos");
+    
+                if(course){
+                    const user = await User.findById(instructor);
+                    user.courses.push(course._id);
+                    await User.findByIdAndUpdate(instructor, user, (err, userUpdate) => {
+                        if(err) return res.status(500).send("Error al modificar usuario");
 
-            if(!course) return res.status(404).send("El curso no tiene todos los datos válidos");
+                        if(!userUpdate) return res.status(404).send("El id del usuario no es correcto");
 
-            if(course) return res.status(200).send(course);
-        })
+                        if(userUpdate) return res.status(200).send(course);
+                    });
+                }
+            })
+        }
     },
     async updateCourse(req, res){
         courseID = req.params.id;
+
+        // Si lo que se quiere cambiar es la imagen
 
         if(req.file){
             Course.findByIdAndUpdate(courseID, {image: req.file.filename}, (err, course) => {
@@ -44,6 +59,8 @@ module.exports = {
         const courseID = req.params.id;
         const instructor = req.headers["x-access-token"].split("|")[1];
         const course = await Course.findById(courseID);
+
+        // Verificación de dueños de usuario
 
         if(instructor == course.instructor){
             await Course.findByIdAndRemove(courseID, (err, course) => {

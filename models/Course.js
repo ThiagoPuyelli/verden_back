@@ -9,11 +9,15 @@ const courseSchema = new Schema({
         position: {type: Number, required: true},
         videos: [{
             file: {type: String, required: true},
-            name: {type: String, required: true}
+            name: {type: String, required: true},
+            description: { type: String, required: true},
+            position: { type: Number, required: true}
         }],
         books: [{
             file: {type: String, required: true},
-            name: {type: String, required: true}
+            name: {type: String, required: true},
+            description: { type: String, required: true},
+            position: { type: Number, required: true}
         }]
     }], required: true},
     category: {type: String, required: true},

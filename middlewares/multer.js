@@ -10,7 +10,7 @@ module.exports = function upload(path, format){
 
             const { originalname } = file;
             const originalnameSplit = originalname.split(".");
-            const fileExt = originalnameSplit[1];
+            const fileExt = originalnameSplit[originalnameSplit.length - 1];
 
             cb(null, uuid.v4() + "." + fileExt);
         }

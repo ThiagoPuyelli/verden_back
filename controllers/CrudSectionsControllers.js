@@ -3,11 +3,6 @@ const Course = require("../models/Course");
 module.exports = {
     async saveSection(req, res){
         const { name, course } = req.body;
-
-        if(course.instructor != req.headers["x-access-token"].split("|")[1]){
-            return res.status(403).send("No eres el dueño del curso");
-        };
-
         const position = course.sections.length + 1;
 
         course.sections.push({

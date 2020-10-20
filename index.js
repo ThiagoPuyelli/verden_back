@@ -29,6 +29,7 @@ app.use((req, res, next) => {
 app.use("/courses/", require("./routes/coursesRoutes"));
 app.use("/users/", require("./routes/usersRoutes"));
 app.use("/sections/", require("./routes/sectionsRoutes"));
+app.use("/files/", require("./routes/fileRoutes"));
 
 // Starting to server
 

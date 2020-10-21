@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 
-module.exports = mongoose.connect("mongodb://localhost:27017/verden", {
+
+module.exports = mongoose.connect(process.env.URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true
 })

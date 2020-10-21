@@ -4,6 +4,8 @@ const app = express();
 
 // Config
 app.set("port", process.env.PORT || 3000);
+require("dotenv").config();
+
 require("./database");
 
 // Middlewares
@@ -12,11 +14,22 @@ app.use(morgan("dev"));
 app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 
+// Cors
+
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Authorization, X-API-KEY, Origin, X-Requested-With, Content-Type, Accept, Access-Control-Allow-Request-Method');
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
+    res.header('Allow', 'GET, POST, OPTIONS, PUT, DELETE');
+    next();
+});
+
 // Routes
 
 app.use("/courses/", require("./routes/coursesRoutes"));
-app.use("/section/", require("./routes/sectionRoutes"));
-app.use("/part/", require("./routes/partRoutes"));
+app.use("/users/", require("./routes/usersRoutes"));
+app.use("/sections/", require("./routes/sectionsRoutes"));
+app.use("/files/", require("./routes/fileRoutes"));
 
 // Starting to server
 

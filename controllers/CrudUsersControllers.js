@@ -89,7 +89,7 @@ module.exports = {
 
         // Si es que cambia ambos
         
-        await User.findByIdAndUpdate(userID, {userChange, image: req.file.filename}, {new: true}, (err, user) => {
+        await User.findByIdAndUpdate(userID, {...userChange, image: req.file.filename}, {new: true}, (err, user) => {
             if(err) return res.status(500).send("Ha ocurrido un error al modificar el usuario");
                 
             if(!user) return res.status(404).send("Los datos no son correctos");

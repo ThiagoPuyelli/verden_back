@@ -3,7 +3,8 @@ const authentication = require("./AuthenticationControllers"),
       crudUsers = require("./CrudUsersControllers"),
       filterCourses = require("./FilterCourses"),
       crudSections = require("./CrudSectionsControllers"),
-      submitFiles = require("./SubmitFilesControllers");
+      submitFiles = require("./SubmitFilesControllers"),
+      rating = require("./RatingControllers")
 
 module.exports = { 
     authentication, 
@@ -11,5 +12,6 @@ module.exports = {
     crudUsers, 
     filterCourses, 
     crudSections,
-    submitFiles 
+    submitFiles ,
+    rating
 };

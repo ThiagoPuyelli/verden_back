@@ -2,40 +2,6 @@ const User = require("../models/User");
 
 module.exports = async ( type, objectRating, rating, user ) => {
 
-    // Obtencion de dato, y verificación de si se calificó o no
-
-
-    var validacion = "";
-
-    if(user[type + "sRating"].length > 0){
-        for(let i in user[type + "sRating"]){
-            if(toString(user[type + "sRating"][i][type + "ID"]) == toString(objectRating._id)){
-                validacion = "calificado";
-            }
-        }
-    }
-    if(type == "course"){
-        if(user[type + "s"].length > 0){
-            for(let i in user[type + "s"]){
-                if(toString(user[type + "s"][i]) == toString(objectRating._id)){
-                    validacion = "dueño";
-                }
-            }
-        }
-    }
-
-    if(type == "user"){
-        if(user._id + "" == objectRating._id + ""){
-            validacion = "dueño";
-        }
-    }
-
-    if(validacion === "calificado"){
-        return "Objeto ya calificado"
-    } else if(validacion === "dueño"){
-        return "Este es tu objeto no lo puedes validar";
-    }
-
     objectRating.calificates.push(rating);
 
     var suma = 0;
@@ -58,12 +24,12 @@ module.exports = async ( type, objectRating, rating, user ) => {
             if(decimal == 0.3 || decimal == 0.4) objectRating.rating = ratingRound + 0.5;
         }
 
-    const userData = {
+    /*const userData = {
         rating,
         [type + "ID"]: objectRating._id
-    };
+    };*/
     
-    if(type == "course"){
+    /*if(type == "course"){
         user.coursesRating.push(userData);
     }
     if (type == "user"){
@@ -80,7 +46,6 @@ module.exports = async ( type, objectRating, rating, user ) => {
         }
     })
     
-    if(newUser){
-        return objectRating
-    }
+    if(newUser)*/
+    return objectRating
 }

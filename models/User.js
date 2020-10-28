@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const bcrypt = require("bcryptjs");
 
 const userSchema = new Schema({
     name: {type: String, required: true},
@@ -9,15 +8,16 @@ const userSchema = new Schema({
     courses: {type: [Schema.ObjectId], ref:"Course", default: []},
     email: {type: String, required: true},
     image: {type: String},
-    rating: {type: Number, default: 0, min: 0, max: 5}
+    rating: {type: Number, default: 0, min: 0, max: 5},
+    calificates: {type: [Number], default: []},
+    coursesRating: {type: [{
+        rating: {type: Number, required: true},
+        courseID: {type: Schema.ObjectId, ref: "Course", required: true}
+    }], default: []},
+    usersRating: {type: [{
+        rating: {type: Number, required: true},
+        userID: {type: Schema.ObjectId, ref: "User", required: true}
+    }], default: []}
 });
-
-userSchema.methods.encryptPassword = (password) => {
-    return bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-}
-
-userSchema.methods.comparePassword = (password, realPassword) => {
-    return bcrypt.compareSync(password, realPassword);
-}
 
 module.exports = mongoose.model("User", userSchema);

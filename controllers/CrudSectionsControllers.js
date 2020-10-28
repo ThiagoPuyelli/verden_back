@@ -19,24 +19,19 @@ module.exports = {
         })
     },
     async updateSection(req, res){
-        const { position, course, name } = req.body;
+        const { course, name } = req.body;
+        const position = req.params.position;
+        if(position && name && course){
+            course.sections[position - 1].name = name
 
-        for(let i of course.sections){
-            if(i.position == position){
-                course.sections[i.position - 1] = {
-                    name,
-                    position
-                }
-            }
+            await Course.findByIdAndUpdate(course._id, course, {new: true}, (err, course) => {
+                if(err) return res.status(500).send("Error al modificar sección");
+    
+                if(!course) return res.status(404).send("Los datos de la sección no son válidos");
+    
+                if(course) return res.status(200).send(course);
+            }) 
         }
-
-        await Course.findByIdAndUpdate(course._id, course, {new: true}, (err, course) => {
-            if(err) return res.status(500).send("Error al modificar sección");
-
-            if(!course) return res.status(404).send("Los datos de la sección no son válidos");
-
-            if(course) return res.status(200).send(course);
-        })
     },
     async deleteSection(req, res){
         const position = req.params.position;

@@ -23,9 +23,11 @@ const courseSchema = new Schema({
     category: {type: String, required: true},
     difficulty: {type: String, required: true},
     rating: {type: Number, default: 0, min: 0, max: 5},
+    calificates: {type: [Number], min: 0, max: 10, default: []},
     description: {type: String, required: true},
-    hours: {type: Number, required: true},
-    instructor: {type: Schema.ObjectId, ref:"User", required: true}
+    hours: {type: Number, default: 0},
+    instructor: {type: Schema.ObjectId, ref:"User", required: true},
+    alumns: {type: [Schema.ObjectId], ref: "User", default: []}
 })
 
 module.exports = mongoose.model("Course", courseSchema);

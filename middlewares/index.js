@@ -1,5 +1,6 @@
 const multer = require("./multer"),
       verifyToken = require("./verifyToken"),
-      findCourse = require("./findCourse")
+      findCourse = require("./findCourse"),
+      verifyAuthor = require("./verifyAuthor")
 
-module.exports = { multer, verifyToken, findCourse };
+module.exports = { multer, verifyToken, findCourse, verifyAuthor };
